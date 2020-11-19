@@ -1,0 +1,40 @@
+{
+  "name": "rats-maze",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "webpack",
+    "react-dev": "webpack -d --watch",
+    "start": "webpack-dev-server --config ./webpack.config.js --mode development --open",
+    "server": "nodemon ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonfu86/rats-maze.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonfu86/rats-maze/issues"
+  },
+  "homepage": "https://github.com/jonfu86/rats-maze#readme",
+  "dependencies": {
+    "@babel/preset-env": "^7.11.5",
+    "nodemon": "^2.0.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/plugin-syntax-jsx": "^7.10.4",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
+    "css-loader": "^4.3.0",
+    "file-loader": "^6.2.0",
+    "style-loader": "^1.2.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
+}
