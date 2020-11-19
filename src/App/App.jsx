@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import style from './styles.css';
 import stones from '../img/stones.jpg';
 import rat from '../img/rat.png';
+import cheese from '../img/cheese.png';
 
 
 export default class App extends Component {
@@ -45,21 +46,23 @@ export default class App extends Component {
 
   hitTile(e) {
     const { position } = this.state;
-    // console.log('row, col: ', e.target.attributes.grid.value);
+
     const y = parseInt(e.target.attributes.grid.value[0]);
     const x = parseInt(e.target.attributes.grid.value[2]);
-    // console.log(grid[0], grid[2]);
     this.setState({
       position: [y, x]
     })
   }
+
   runMaze(e) {
     console.log('runMaze');
   }
 
+
   render() {
 
     const { maze, position, end } = this.state;
+
 
     return (
       <div className={style.app}>
@@ -68,10 +71,23 @@ export default class App extends Component {
           <img src={stones} className={style.stones}></img>
           {maze.map((row, yIndex) =>
             <div key={yIndex} y={yIndex} className={style.row}>
-              {row.map((tile, xIndex) =>
-                <div key={xIndex} grid={`${yIndex},${xIndex}`} className={style.tile}>
-                  {position[0] === yIndex && position[1] === xIndex ? <img src={rat} className={style.rat}></img> : <div></div>}
+              {row.map((tile, xIndex) => {
+                let square;
+
+                if ((position[0] === yIndex && position[1] === xIndex) && (end[0] === yIndex && end[1] === xIndex)) {
+                  //mouse found cheese
+                  square = <div><img src={rat} className={style.rat}></img><img src={cheese} className={style.cheese}></img></div>;
+                } else if (position[0] === yIndex && position[1] === xIndex) {
+                  square = <img src={rat} className={style.rat}></img>;
+                } else if (end[0] === yIndex && end[1] === xIndex) {
+                  square = <img src={cheese} className={style.cheese}></img>;
+                }
+
+                return <div key={xIndex} grid={`${yIndex},${xIndex}`} className={style.tile}>
+                  {square}
                 </div>
+              }
+
               )}
             </div>
           )}

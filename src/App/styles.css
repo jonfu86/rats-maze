@@ -33,12 +33,12 @@ h1 {
   /* pointer-events: none; */
 }
 
-.rat {
+.rat, .cheese {
   height: 60px;
   width: 60px;
   pointer-events: none;
   z-index: 100;
-  position:relative;
+  position:absolute;
   padding: 7px;
 }
 
