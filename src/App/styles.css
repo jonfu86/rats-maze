@@ -33,6 +33,24 @@ h1 {
   /* pointer-events: none; */
 }
 
+.main{
+  display:inline-block;
+  width: 65%;
+  height: 100%;
+  position:relative;
+  vertical-align: top;
+}
+
+/* .control{
+  display: inline-block;
+  width: 35%;
+  height: 100%;
+  background: #2d2d2d;
+  border-left: solid gray 2px;
+  box-sizing: border-box;
+  position:relative;
+} */
+
 .rat, .cheese {
   height: 60px;
   width: 60px;
@@ -78,7 +96,7 @@ h1 {
   outline: none;
 }
 
-.stones {
+.stones{
   width: 100%;
   height: 100%;
   position: absolute;
@@ -90,4 +108,12 @@ h1 {
   height: 75px;
   width: 75px;
   display:inline-block;
+}
+
+.wall{
+   z-index: 3;
+   position: relative;
+   height:75px;
+   width:75px;
+   pointer-events:none;
 }
