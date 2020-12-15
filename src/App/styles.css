@@ -4,13 +4,13 @@ html, body, body > div {
   margin: 0;
   padding: 0;
   background: black;
+  font-family:Arial;
 }
 
 h1 {
   padding: 50px;
   text-align:center;
   color: white;
-  font-family: arial;
 }
 
 .app {
@@ -41,15 +41,6 @@ h1 {
   vertical-align: top;
 }
 
-/* .control{
-  display: inline-block;
-  width: 35%;
-  height: 100%;
-  background: #2d2d2d;
-  border-left: solid gray 2px;
-  box-sizing: border-box;
-  position:relative;
-} */
 
 .rat, .cheese {
   height: 60px;
@@ -63,12 +54,20 @@ h1 {
 .row {
   display:block;
   height: 75px;
-  /* pointer-events: none; */
 }
 
-.runButton {
+.warn {
   position: absolute;
-  bottom: 10%;
+  bottom: 25%;
+  left: 50%;
+  transform: translate(-50%);
+  color: red;
+  font-size: 24px;
+}
+
+.solveButton {
+  position: absolute;
+  bottom: 20%;
   left: 50%;
   transform: translate(-50%);
   width: 100px;
@@ -80,19 +79,19 @@ h1 {
 	display:block;
 	cursor:pointer;
 	color:#ffffff;
-	font-family:Arial;
+
 	font-size:16px;
 	font-weight:bold;
 	padding:6px 12px;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #5b8a3c;
 }
-.runButton:hover {
+.solveButton:hover {
 	background:linear-gradient(to bottom, #72b352 5%, #77b55a 100%);
 	background-color:#72b352;
 }
 
-.runButton:focus{
+.solveButton:focus{
   outline: none;
 }
 

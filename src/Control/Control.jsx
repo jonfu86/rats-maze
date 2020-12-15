@@ -14,15 +14,38 @@ export default class Control extends Component {
   }
 
   handleOptionToggle(e) {
-    this.setState({
-      option: e.target.id
-    })
+    const { update } = this.props;
+    const { option } = this.state;
+
+    if (e.target.id === option) {
+      this.setState({
+        option: false
+      }, update(false));
+    } else {
+      this.setState({
+        option: e.target.id
+      }, update(e.target.id));
+    }
+
   }
+
 
   render() {
     const { option } = this.state;
-    return (
-      <div className={style.control}>
+    const { solutions, runMaze } = this.props;
+    let controlBody;
+
+    if (solutions && solutions.length > 0) {
+      controlBody = <>
+        <h1>Solutions</h1>
+        {
+          solutions.map((path, index) => (
+            <div className={style.solution} onClick={() => runMaze(path)}> Solution: {index + 1}  ({path.length - 1} steps) </div>
+          ))
+        }
+      </>
+    } else {
+      controlBody = <>
         <h1>Settings</h1>
         <div id="rat" className={option === 'rat' ? `${style.option} ${style.active}` : style.option} onClick={this.handleOptionToggle}>
           <img src={ratImg}></img>
@@ -44,6 +67,12 @@ export default class Control extends Component {
             Toggle walls
           </div>
         </div>
+      </>
+    }
+
+    return (
+      <div className={style.control}>
+        {controlBody}
       </div >
     );
   }

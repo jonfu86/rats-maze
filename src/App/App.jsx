@@ -3,76 +3,109 @@ import Control from '../Control/Control.jsx';
 import style from './styles.css';
 import stones from '../img/stones.jpg';
 import ratImg from '../img/rat.png';
-import cheese from '../img/cheese.png';
+import cheeseImg from '../img/cheese.png';
 import wall from '../img/wall.png';
+import MazeSolver from '../MazeSolver.js';
 
 
 export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      maze: [[0, 1, 0, 0, 0, 0, 0, 0],
-      [0, 1, 0, 0, 0, 0, 0, 0],
-      [0, 0, 1, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 1, 0, 0, 0],
-      [0, 0, 0, 0, 0, 1, 0, 0],
+      maze: [[0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0, 0, 0]],
       rat: [0, 0],
-      end: [7, 7]
+      cheese: [7, 7],
+      option: false,
+      solutions: null
     }
 
     this.maze = React.createRef();
 
     this.hitTile = this.hitTile.bind(this);
+    this.updateOption = this.updateOption.bind(this);
+    this.solveMaze = this.solveMaze.bind(this);
+    this.runMaze = this.runMaze.bind(this);
   }
 
   componentDidMount() {
-    const { rat, end } = this.state;
-    this.setRat(rat);
-    this.setEnd(end);
+    // const { rat, cheese } = this.state;
+    // this.setRat(rat);
+    // this.setCheese(cheese);
   }
 
-  setRat(grid) {
-    // const row = this.maze.current.children.item(grid[0] + 1);
-    // const tile = row.children.item(grid[1]);
-    // const { rat } = this.state;
-
-    // const y = parseInt(e.target.attributes.grid.value[0]);
-    // const x = parseInt(e.target.attributes.grid.value[2]);
-    const y = grid[0];
-    const x = grid[1];
-
+  setRat(y, x) {
     this.setState({
       rat: [y, x]
     })
   }
 
-  setEnd(grid) {
-
+  setCheese(y, x) {
+    this.setState({
+      cheese: [y, x]
+    })
   }
 
   hitTile(e) {
+    const { option } = this.state;
+    const y = parseInt(e.target.attributes.grid.value[0]);
+    const x = parseInt(e.target.attributes.grid.value[2]);
 
+
+
+    if (option === 'walls') {
+      this.toggleWall(y, x);
+    } else if (option === 'rat') {
+      this.setRat(y, x);
+    } else if (option === 'cheese') {
+      this.setCheese(y, x);
+    }
   }
 
-  runMaze(e) {
-    console.log('runMaze');
+  solveMaze() {
+    const { maze, rat, cheese } = this.state;
+    var solutions = MazeSolver(maze, rat, cheese);
+    this.setState({ solutions });
+  }
+
+  runMaze(path) {
+    let copy = path.slice();
+    if (path.length > 0) {
+      this.setState({ rat: path[0] });
+    }
+    copy.shift();
+    setTimeout(() => {
+      this.runMaze(copy);
+    }, 400);
   }
 
   toggleWall(y, x) {
-    this.setState((current) => {
-      current.maze[y][x] === 0 ? 1 : 0;
-      return { maze: current.maze };
-    })
+    const { maze } = this.state;
+    let copy = maze.slice();
+    //toggle tile in copy
+    copy[y][x] = copy[y][x] === 0 ? 1 : 0;
+
+    this.setState({
+      maze: copy
+    });
+  }
+
+  updateOption(option) {
+    this.setState({
+      option: option
+    });
   }
 
 
   render() {
 
-    const { maze, rat, end } = this.state;
-
+    const { maze, rat, cheese, solutions } = this.state;
 
     return (
       <div className={style.app}>
@@ -86,18 +119,21 @@ export default class App extends Component {
                 {row.map((tile, xIndex) => {
                   let square;
 
-                  if ((rat[0] === yIndex && rat[1] === xIndex) && (end[0] === yIndex && end[1] === xIndex)) {
-                    //mouse found cheese
-                    square = <div><img src={ratImg} className={style.rat}></img><img src={cheese} className={style.cheese}></img></div>;
+                  if ((rat[0] === yIndex && rat[1] === xIndex) && (cheese[0] === yIndex && cheese[1] === xIndex)) {
+                    //rat found cheese
+                    square = <div><img src={ratImg} className={style.rat}></img><img src={cheeseImg} className={style.cheese}></img></div>;
                   } else if (rat[0] === yIndex && rat[1] === xIndex) {
+                    //rat in tile
                     square = <img src={ratImg} className={style.rat}></img>;
-                  } else if (end[0] === yIndex && end[1] === xIndex) {
-                    square = <img src={cheese} className={style.cheese}></img>;
+                  } else if (cheese[0] === yIndex && cheese[1] === xIndex) {
+                    //cheese in tile
+                    square = <img src={cheeseImg} className={style.cheese}></img>;
                   } else if (maze[yIndex][xIndex] === 1) {
+                    //tile has a wall
                     square = <img src={wall} className={style.wall}></img>
                   }
 
-                  return <div key={xIndex} grid={`${yIndex}, ${xIndex}`} className={style.tile}>
+                  return <div key={xIndex} grid={`${yIndex},${xIndex}`} className={style.tile}>
                     {square}
                   </div>
                 }
@@ -107,10 +143,12 @@ export default class App extends Component {
             )}
           </div>
 
-          <button className={style.runButton} type="button" onClick={this.runMaze}>Run</button>
+          {Array.isArray(solutions) && solutions.length === 0 ? <div className={style.warn}>No Valid Solutions, Try a New Maze </div> : null}
+
+          <button className={style.solveButton} type="button" onClick={this.solveMaze}>Solve</button>
 
         </div>
-        <Control />
+        <Control update={this.updateOption} solutions={solutions} runMaze={this.runMaze} />
 
       </div >
     );
