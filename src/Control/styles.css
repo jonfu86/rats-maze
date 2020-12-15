@@ -10,9 +10,10 @@ h1{
   width: 35%;
   height: 100%;
   background: #2d2d2d;
-  border-left: solid gray 2px;
+  border-left: solid gray 3px;
   box-sizing: border-box;
   position:relative;
+  overflow: auto;
 }
 
 .active{
@@ -43,10 +44,7 @@ h1{
   cursor:pointer;
 }
 
-
 .option > img{
   height:100%;
   pointer-events:none;
-
-  /* flex-basis: 40%; */
 }

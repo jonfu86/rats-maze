@@ -1,3 +1,4 @@
+/* General CSS */
 html, body, body > div {
   height: 100%;
   width: 100%;
@@ -13,6 +14,11 @@ h1 {
   color: white;
 }
 
+a{
+  text-decoration: none;
+  color: #4c7aef;
+}
+
 .app {
   margin: 0;
   padding: 0;
@@ -21,6 +27,103 @@ h1 {
   height: 100%;
 }
 
+.header{
+  width: 600px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.main{
+  display:inline-block;
+  width: 65%;
+  height: 100%;
+  position:relative;
+  vertical-align: top;
+  overflow: hidden;
+}
+
+.warn {
+  position: absolute;
+  bottom: 30%;
+  left: 50%;
+  transform: translate(-50%);
+  color: red;
+  font-size: 24px;
+}
+
+.solveButton, .solveButton:focus {
+  position: absolute;
+  bottom: 25%;
+  left: 50%;
+  transform: translate(-50%);
+	box-shadow: 0px 10px 14px -7px #3e7327;
+	background:linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+	background-color:#77b55a;
+	border-radius:4px;
+	border:1px solid #4b8f29;
+	display:block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:16px;
+	font-weight:bold;
+	padding:10px 15px;
+	text-decoration:none;
+  text-shadow:0px 1px 0px #5b8a3c;
+  outline: none;
+}
+
+.hidden{
+  visibility:hidden;
+}
+
+
+/* Information Modal */
+.info{
+  background: #2d2d2d;
+  border: 2px solid grey;
+  border-radius:5px;
+  padding: 25px;
+  max-width: 640px;
+  margin: 8% auto;
+  z-index: 200;
+  position:relative;
+  color:white;
+  transform-origin: 0% 0%;
+  transform: translate(250%, 0);
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+}
+
+.openInfo{
+  transform:none;
+}
+
+.info > span{
+  color:red;
+}
+.infoButton, .infoButton:focus, .closeButton, .closeButton:focus{
+  position:absolute;
+  height:30px;
+  width:30px;
+  background-color: transparent;
+  border:none;
+  background-size:cover;
+  cursor:pointer;
+  outline:none;
+}
+.infoButton, .infoButton:focus{
+  top: 75%;
+  right: 0%;
+  background-image: url("../img/info.png");
+}
+
+.closeButton, .closeButton:focus{
+  background-image: url("../img/close.png");
+  right: 3%;
+  top: 5%;
+}
+
+
+/* Maze CSS */
 .maze{
   margin: 0;
   position: absolute;
@@ -30,17 +133,7 @@ h1 {
   height:600px;
   width:600px;
   z-index: 1;
-  /* pointer-events: none; */
 }
-
-.main{
-  display:inline-block;
-  width: 65%;
-  height: 100%;
-  position:relative;
-  vertical-align: top;
-}
-
 
 .rat, .cheese {
   height: 60px;
@@ -54,45 +147,6 @@ h1 {
 .row {
   display:block;
   height: 75px;
-}
-
-.warn {
-  position: absolute;
-  bottom: 25%;
-  left: 50%;
-  transform: translate(-50%);
-  color: red;
-  font-size: 24px;
-}
-
-.solveButton {
-  position: absolute;
-  bottom: 20%;
-  left: 50%;
-  transform: translate(-50%);
-  width: 100px;
-	box-shadow: 0px 10px 14px -7px #3e7327;
-	background:linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
-	background-color:#77b55a;
-	border-radius:4px;
-	border:1px solid #4b8f29;
-	display:block;
-	cursor:pointer;
-	color:#ffffff;
-
-	font-size:16px;
-	font-weight:bold;
-	padding:6px 12px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #5b8a3c;
-}
-.solveButton:hover {
-	background:linear-gradient(to bottom, #72b352 5%, #77b55a 100%);
-	background-color:#72b352;
-}
-
-.solveButton:focus{
-  outline: none;
 }
 
 .stones{

@@ -5,6 +5,7 @@ import stones from '../img/stones.jpg';
 import ratImg from '../img/rat.png';
 import cheeseImg from '../img/cheese.png';
 import wall from '../img/wall.png';
+import close from '../img/close.png';
 import MazeSolver from '../MazeSolver.js';
 
 
@@ -23,7 +24,8 @@ export default class App extends Component {
       rat: [0, 0],
       cheese: [7, 7],
       option: false,
-      solutions: null
+      solutions: null,
+      isInfo: true
     }
 
     this.maze = React.createRef();
@@ -32,6 +34,7 @@ export default class App extends Component {
     this.updateOption = this.updateOption.bind(this);
     this.solveMaze = this.solveMaze.bind(this);
     this.runMaze = this.runMaze.bind(this);
+    this.resetMaze = this.resetMaze.bind(this);
   }
 
   componentDidMount() {
@@ -85,6 +88,10 @@ export default class App extends Component {
     }, 400);
   }
 
+  resetMaze() {
+    this.setState({ solutions: null });
+  }
+
   toggleWall(y, x) {
     const { maze } = this.state;
     let copy = maze.slice();
@@ -105,13 +112,37 @@ export default class App extends Component {
 
   render() {
 
-    const { maze, rat, cheese, solutions } = this.state;
+    const { maze, rat, cheese, solutions, isInfo } = this.state;
 
     return (
       <div className={style.app}>
 
         <div className={style.main}>
-          <h1>The Rat's Maze</h1>
+          <div className={style.header}>
+            <h1>The Rat's Maze</h1>
+            <button
+              className={isInfo ? style.hidden : style.infoButton}
+              onClick={() => { this.setState(current => ({ isInfo: !current.isInfo })); }}>
+            </button>
+          </div>
+
+          <div className={isInfo ? `${style.info} ${style.openInfo}` : style.info}>
+            <button
+              className={style.closeButton}
+              onClick={() => { this.setState({ isInfo: false }) }}>
+            </button>
+            <span>
+              Warning!
+            </span>
+            <p></p>
+            <span>
+              This maze solver will return every possible route without backtracking regardless of how many steps or how inefficient the path. Please design your maze so that it actually represents a maze, with limited paths to reach the end point otherwise risk crashing your browser.
+            </span>
+            <p>
+              I built this application as an exercise in visualization of an algorithm problem known as "The Rat's Maze". Essentially we are tasked with finding out if a given maze as defined by a given 2d matrix is solvable. In this problem, "1"s represent obstructions and "0"s represent an open space. We are given a start and end point and must discover if there is a clear path between them. Feel free to check out my other projects at <a href="https://www.github.com/jonfu86">Github</a> or find out more about me on <a href="https://www.linkedin.com/in/jonfu">LinkedIn</a>.
+            </p>
+          </div>
+
           <div className={style.maze} onClick={this.hitTile} ref={this.maze}>
             <img src={stones} className={style.stones}></img>
             {maze.map((row, yIndex) =>
@@ -145,7 +176,11 @@ export default class App extends Component {
 
           {Array.isArray(solutions) && solutions.length === 0 ? <div className={style.warn}>No Valid Solutions, Try a New Maze </div> : null}
 
-          <button className={style.solveButton} type="button" onClick={this.solveMaze}>Solve</button>
+          {Array.isArray(solutions) && solutions.length > 0 ?
+            <button className={style.solveButton} type="button" onClick={this.resetMaze}>New Maze</button> :
+            <button className={style.solveButton} type="button" onClick={this.solveMaze}>Solve</button>}
+
+
 
         </div>
         <Control update={this.updateOption} solutions={solutions} runMaze={this.runMaze} />
