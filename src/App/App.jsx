@@ -159,8 +159,10 @@ export default class App extends Component {
                   } else if (cheese[0] === yIndex && cheese[1] === xIndex) {
                     //cheese in tile
                     square = <img src={cheeseImg} className={style.cheese}></img>;
-                  } else if (maze[yIndex][xIndex] === 1) {
-                    //tile has a wall
+                  }
+
+                  if (maze[yIndex][xIndex] === 1) {
+                    //tile has a wall and covers rat or cheese if in same tile
                     square = <img src={wall} className={style.wall}></img>
                   }
 
